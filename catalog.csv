@@ -1,0 +1,23 @@
+id,categoria,produto,descricao,preco,foto,disponivel,destaque,ordem
+1,Brownies,Fatia Brownie Kinder,,20,https://images.unsplash.com/photo-1606313564200-e75d5e30476c?auto=format&fit=crop&w=900&q=85,SIM,SIM,1
+2,Brownies,Fatia Brownie,,15,https://images.unsplash.com/photo-1606313564200-e75d5e30476c?auto=format&fit=crop&w=900&q=85,SIM,NAO,2
+3,Bolos e Tortas,Torta Cookie,,15,https://images.unsplash.com/photo-1565958011703-44f9829ba187?auto=format&fit=crop&w=900&q=85,SIM,SIM,1
+4,Bolos e Tortas,Bolo Cenoura,,13,https://images.unsplash.com/photo-1565958011703-44f9829ba187?auto=format&fit=crop&w=900&q=85,SIM,NAO,2
+5,Bolos e Tortas,Bolo Matilda,,13,https://images.unsplash.com/photo-1565958011703-44f9829ba187?auto=format&fit=crop&w=900&q=85,SIM,SIM,3
+6,Doces e Brigadeirões,Pão de Mel,,13,https://images.unsplash.com/photo-1486427944299-d1955d23e34d?auto=format&fit=crop&w=900&q=85,SIM,NAO,1
+7,Doces e Brigadeirões,Brigadeirão de Uva,,12,https://images.unsplash.com/photo-1486427944299-d1955d23e34d?auto=format&fit=crop&w=900&q=85,SIM,NAO,2
+8,Doces e Brigadeirões,Brigadeirão Ninho Nutella,,15,https://images.unsplash.com/photo-1486427944299-d1955d23e34d?auto=format&fit=crop&w=900&q=85,SIM,SIM,3
+9,Doces e Brigadeirões,Bombom,,12,https://images.unsplash.com/photo-1606313564200-e75d5e30476c?auto=format&fit=crop&w=900&q=85,SIM,NAO,4
+10,"Copos, Cascones e Geladões",Copo Supremo,,18,https://images.unsplash.com/photo-1551024506-0bccd828d307?auto=format&fit=crop&w=900&q=85,SIM,SIM,1
+11,"Copos, Cascones e Geladões",Cascone,,15,https://images.unsplash.com/photo-1551024506-0bccd828d307?auto=format&fit=crop&w=900&q=85,SIM,NAO,2
+12,"Copos, Cascones e Geladões",Geladão Gourmet,,10,https://images.unsplash.com/photo-1551024506-0bccd828d307?auto=format&fit=crop&w=900&q=85,SIM,NAO,3
+13,"Copos, Cascones e Geladões",Copo Kinder,,20,https://images.unsplash.com/photo-1551024506-0bccd828d307?auto=format&fit=crop&w=900&q=85,SIM,SIM,4
+14,"Copos, Cascones e Geladões",Cascone Kinder,,20,https://images.unsplash.com/photo-1551024506-0bccd828d307?auto=format&fit=crop&w=900&q=85,SIM,NAO,5
+15,"Copos, Cascones e Geladões",Copo Merengue 150ml,,18,https://images.unsplash.com/photo-1551024506-0bccd828d307?auto=format&fit=crop&w=900&q=85,SIM,NAO,6
+16,Coxinhas Doces,Combo de Duo Coxinha,,15,https://images.unsplash.com/photo-1551024506-0bccd828d307?auto=format&fit=crop&w=900&q=85,SIM,SIM,1
+17,Coxinhas Doces,Trio Coxinha,,25,https://images.unsplash.com/photo-1551024506-0bccd828d307?auto=format&fit=crop&w=900&q=85,SIM,NAO,2
+18,Coxinhas Doces,Coxinha Individual,,13,https://images.unsplash.com/photo-1551024506-0bccd828d307?auto=format&fit=crop&w=900&q=85,SIM,NAO,3
+19,Especiais de Morango e Chocolate,Morango Cravejado,,15,https://images.unsplash.com/photo-1606313564200-e75d5e30476c?auto=format&fit=crop&w=900&q=85,SIM,SIM,1
+20,Especiais de Morango e Chocolate,Barra de Chocolate (Ninho Nutella 150g),,15,https://images.unsplash.com/photo-1606313564200-e75d5e30476c?auto=format&fit=crop&w=900&q=85,SIM,NAO,2
+21,Especiais de Morango e Chocolate,Morango Espeto Recheado,,20,https://images.unsplash.com/photo-1606313564200-e75d5e30476c?auto=format&fit=crop&w=900&q=85,SIM,NAO,3
+22,Especiais de Morango e Chocolate,Morango do Amor,,13,https://images.unsplash.com/photo-1606313564200-e75d5e30476c?auto=format&fit=crop&w=900&q=85,SIM,SIM,4
