@@ -23,4 +23,4 @@ O número do WhatsApp fica em `config.js` no formato internacional, sem `+` ou p
 
 ## Publicar na Vercel
 
-Importe este repositório na Vercel como projeto estático. Não há dependências, comando de build ou variáveis secretas. O arquivo `vercel.json` mantém URLs limpas e compatibilidade com o deploy estático.
+Importe este repositório na Vercel como projeto estático. Não há dependências, comando de build ou variáveis secretas. O arquivo `vercel.json` fixa a pasta de saída como a raiz (`.`), porque `public/` contém apenas as logos e não o `index.html`. No painel Vercel, use o preset **Other**, sem comando de build; se a opção Output Directory estiver sobrescrita no painel, limpe a sobrescrita ou defina-a como `.`. Faça um novo deploy depois de enviar essa alteração.
