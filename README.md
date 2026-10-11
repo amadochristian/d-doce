@@ -1,6 +1,6 @@
 # D Doce Docinho
 
-Cardápio estático em HTML, CSS e JavaScript, pronto para publicar na Vercel. O carrinho funciona no navegador e o pedido é enviado pela conversa do WhatsApp, sem pagamento ou armazenamento de pedidos no site.
+Cardápio estático em HTML, CSS e JavaScript, pronto para publicar na Vercel. O carrinho funciona no navegador e o pedido é enviado pela conversa do WhatsApp, sem pagamento ou armazenamento de pedidos no site. Antes de enviar, a pessoa escolhe entrega ou retirada e PIX ou dinheiro; para entrega, informa o endereço, e para dinheiro pode informar o valor para troco. Essas informações são incluídas na mensagem do pedido e não são armazenadas pelo site.
 
 ## Rodar localmente
 

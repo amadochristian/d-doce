@@ -2,13 +2,16 @@
   const config = window.MENU_CONFIG || {};
   const catalogElement = document.querySelector("#catalog");
   const categoryNav = document.querySelector("#category-nav");
-  const featuredSection = document.querySelector("#featured-section");
-  const featuredProducts = document.querySelector("#featured-products");
+  const catalogSearch = document.querySelector("#catalog-search");
   const catalogStatus = document.querySelector("#catalog-status");
   const dialog = document.querySelector("#order-dialog");
   const orderItems = document.querySelector("#order-items");
   const emptyOrder = document.querySelector("#empty-order");
-  const orderFooter = document.querySelector("#order-footer");
+  const checkoutForm = document.querySelector("#checkout-form");
+  const addressField = document.querySelector("#address-field");
+  const addressInput = document.querySelector("#delivery-address");
+  const changeField = document.querySelector("#change-field");
+  const changeInput = document.querySelector("#cash-change");
   const floatingOrder = document.querySelector("#floating-order");
   const cart = new Map();
   let products = [];
@@ -94,20 +97,23 @@
   }
 
   function renderCatalog() {
-    const visibleProducts = products.filter((product) => product.available || config.showUnavailable !== false);
+    const query = catalogSearch.value.trim().toLocaleLowerCase("pt-BR");
+    const visibleProducts = products.filter((product) => {
+      const isVisible = product.available || config.showUnavailable !== false;
+      const matchesQuery = !query || `${product.name} ${product.description} ${product.category}`.toLocaleLowerCase("pt-BR").includes(query);
+      return isVisible && matchesQuery;
+    });
     const categories = [...new Set(visibleProducts.map((product) => product.category))];
+    categoryNav.hidden = categories.length === 0;
     categoryNav.innerHTML = categories.map((category, index) => `<a class="category-link${index === 0 ? " is-current" : ""}" href="#category-${index}" data-category-link>${escapeHtml(category)}</a>`).join("");
     catalogElement.innerHTML = categories.map((category, index) => {
       const categoryProducts = visibleProducts.filter((product) => product.category === category).sort((left, right) => left.order - right.order);
       return `<section class="category-section" id="category-${index}" aria-labelledby="category-title-${index}">
-        <div class="section-heading"><div><p class="eyebrow">FEITO PARA VOCÊ</p><h2 id="category-title-${index}">${escapeHtml(category)}</h2></div><span class="item-count">${categoryProducts.length} ${categoryProducts.length === 1 ? "doce" : "doces"}</span></div>
+        <div class="section-heading"><h2 id="category-title-${index}">${escapeHtml(category)}</h2><span class="item-count">${categoryProducts.length} ${categoryProducts.length === 1 ? "doce" : "doces"}</span></div>
         <div class="product-grid">${categoryProducts.map(productCard).join("")}</div>
       </section>`;
     }).join("");
-
-    const featured = visibleProducts.filter((product) => product.featured && product.available).sort((left, right) => left.order - right.order);
-    featuredSection.hidden = featured.length === 0;
-    featuredProducts.innerHTML = featured.map(productCard).join("");
+    catalogStatus.textContent = query && visibleProducts.length === 0 ? "Nenhum produto encontrado. Tente buscar por outro nome." : "";
   }
 
   function cartEntries() {
@@ -118,9 +124,52 @@
     return cartEntries().reduce((total, entry) => total + entry.product.price * entry.quantity, 0);
   }
 
+  function selectedOption(name) {
+    return checkoutForm.querySelector(`input[name="${name}"]:checked`)?.value;
+  }
+
+  function parseAmount(value) {
+    const normalized = value.trim().replace(/[^\d,.-]/g, "");
+    if (!normalized) return null;
+    const decimal = normalized.includes(",") ? normalized.replace(/\./g, "").replace(",", ".") : normalized;
+    const amount = Number(decimal);
+    return Number.isFinite(amount) && amount >= 0 ? amount : null;
+  }
+
+  function updateCheckoutFields() {
+    const deliveryMethod = selectedOption("delivery-method");
+    const paymentMethod = selectedOption("payment-method");
+    addressField.hidden = deliveryMethod !== "delivery";
+    addressInput.required = deliveryMethod === "delivery";
+    addressInput.setCustomValidity(deliveryMethod === "delivery" && !addressInput.value.trim() ? "Informe o endereço para entrega." : "");
+    changeField.hidden = paymentMethod !== "cash";
+    updateWhatsAppLink();
+  }
+
   function updateWhatsAppLink() {
     const lines = cartEntries().map(({ product, quantity }) => `${quantity}x ${product.name} - ${money.format(product.price)}`);
-    const message = ["Olá! Gostaria de fazer um pedido:", "", ...lines, "", `Total: ${money.format(cartTotal())}`, "", "Aguardo a confirmação. Obrigado!"].join("\n");
+    const deliveryMethod = selectedOption("delivery-method");
+    const paymentMethod = selectedOption("payment-method");
+    const changeAmount = parseAmount(changeInput.value);
+    const deliveryDetails = deliveryMethod === "delivery"
+      ? [`Para entregar no endereço:`, addressInput.value.trim()]
+      : deliveryMethod === "pickup" ? ["Vou retirar o pedido"] : [];
+    const paymentDetails = paymentMethod === "pix"
+      ? ["Forma de pagamento: PIX"]
+      : paymentMethod === "cash"
+        ? [`Forma de pagamento: Dinheiro${changeAmount === null ? "" : ` (troco para ${money.format(changeAmount)})`}`]
+        : [];
+    const details = [...deliveryDetails, ...paymentDetails];
+    const message = [
+      "Olá! Gostaria de fazer um pedido:",
+      ...(details.length ? ["", ...details] : []),
+      "",
+      ...lines,
+      "",
+      `Total: ${money.format(cartTotal())}`,
+      "",
+      "Aguardo a confirmação. Obrigado!"
+    ].join("\n");
     document.querySelector("#whatsapp-button").href = `https://wa.me/${encodeURIComponent(config.whatsappNumber || "5535991584719")}?text=${encodeURIComponent(message)}`;
   }
 
@@ -133,7 +182,7 @@
     document.querySelector("#floating-total").textContent = money.format(total);
     document.querySelector("#order-total").textContent = money.format(total);
     emptyOrder.hidden = count !== 0;
-    orderFooter.hidden = count === 0;
+    checkoutForm.hidden = count === 0;
     orderItems.innerHTML = entries.map(({ product, quantity }) => `<article class="order-item">
       <div class="order-item-copy"><strong>${escapeHtml(product.name)}</strong><span>${money.format(product.price)} cada</span></div>
       <div class="quantity-control" aria-label="Quantidade de ${escapeHtml(product.name)}">
@@ -184,6 +233,7 @@
       document.querySelectorAll("[data-category-link]").forEach((link) => link.classList.toggle("is-current", link === categoryLink));
     }
   });
+  catalogSearch.addEventListener("input", renderCatalog);
   document.addEventListener("error", (event) => {
     const image = event.target;
     if (image instanceof HTMLImageElement && image.matches(".product-photo img")) {
@@ -197,11 +247,21 @@
 
   floatingOrder.addEventListener("click", () => dialog.showModal());
   document.querySelector("#close-order").addEventListener("click", () => dialog.close());
+  checkoutForm.addEventListener("change", updateCheckoutFields);
+  addressInput.addEventListener("input", () => {
+    addressInput.setCustomValidity(selectedOption("delivery-method") === "delivery" && !addressInput.value.trim() ? "Informe o endereço para entrega." : "");
+    updateWhatsAppLink();
+  });
+  changeInput.addEventListener("input", () => {
+    const amount = parseAmount(changeInput.value);
+    changeInput.setCustomValidity(changeInput.value.trim() && amount === null ? "Informe um valor válido, por exemplo 50,00." : "");
+    updateWhatsAppLink();
+  });
   dialog.addEventListener("click", (event) => {
     if (event.target === dialog) dialog.close();
   });
   document.querySelector("#whatsapp-button").addEventListener("click", (event) => {
-    if (cart.size === 0) event.preventDefault();
+    if (cart.size === 0 || !checkoutForm.reportValidity()) event.preventDefault();
   });
 
   async function init() {
