@@ -119,11 +119,12 @@ h1, h2, h3, p { margin-top: 0; }
 .checkout-option input { accent-color: var(--pink-dark); }
 .checkout-field { display: grid; gap: 6px; color: var(--ink); font-size: 12px; font-weight: 600; }
 .checkout-field[hidden] { display: none; }
-.checkout-field textarea, .checkout-field input { width: 100%; padding: 10px 11px; border: 1px solid var(--line); border-radius: 2px; background: white; color: var(--ink); font: inherit; font-size: 13px; }
+.checkout-field textarea, .checkout-field input, .checkout-field select { width: 100%; padding: 10px 11px; border: 1px solid var(--line); border-radius: 2px; background: white; color: var(--ink); font: inherit; font-size: 13px; }
 .checkout-field textarea { resize: vertical; }
-.checkout-field textarea:focus, .checkout-field input:focus { outline: 2px solid var(--pink-mid); outline-offset: 1px; }
+.checkout-field textarea:focus, .checkout-field input:focus, .checkout-field select:focus { outline: 2px solid var(--pink-mid); outline-offset: 1px; }
 .total-row { display: flex; align-items: center; justify-content: space-between; font-size: 14px; }
 .total-row strong { font-size: 19px; }
+.total-row[hidden] { display: none; }
 .order-note { margin: 9px 0 15px; color: var(--muted); font-size: 11px; }
 .whatsapp-button { display: flex; align-items: center; justify-content: center; gap: 10px; min-height: 50px; border-radius: 2px; background: var(--pink-mid); color: white; font-size: 19px; font-weight: 700; text-decoration: none; }
 .whatsapp-button:hover { background: var(--pink-dark); }

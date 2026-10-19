@@ -74,9 +74,80 @@
           <legend>Como prefere receber?</legend>
           <label class="checkout-option"><input type="radio" name="delivery-method" value="delivery" required /> Entrega</label>
           <label class="checkout-option"><input type="radio" name="delivery-method" value="pickup" required /> Vou retirar o pedido</label>
+          <label class="checkout-field" id="neighborhood-field" hidden for="delivery-neighborhood">
+            Bairro em Pouso Alegre
+            <select id="delivery-neighborhood" name="delivery-neighborhood">
+              <option value="" selected disabled>Selecione seu bairro</option>
+              <optgroup label="Taxa de entrega: R$ 5,00">
+                <option value="Parque Real" data-fee="5">Parque Real</option>
+                <option value="Jardim Aeroporto" data-fee="5">Jardim Aeroporto</option>
+                <option value="Jardim Brasil I" data-fee="5">Jardim Brasil I</option>
+              </optgroup>
+              <optgroup label="Taxa de entrega: R$ 8,00">
+                <option value="Vergani" data-fee="8">Vergani</option>
+                <option value="Santa Rita I" data-fee="8">Santa Rita I</option>
+                <option value="Santa Rita II" data-fee="8">Santa Rita II</option>
+                <option value="Santa Rita III" data-fee="8">Santa Rita III</option>
+              </optgroup>
+              <optgroup label="Taxa de entrega: R$ 10,00">
+                <option value="Monte Verde" data-fee="10">Monte Verde</option>
+                <option value="Colina Verde" data-fee="10">Colina Verde</option>
+                <option value="Paraty" data-fee="10">Paraty</option>
+                <option value="Residencial Serra Morena" data-fee="10">Residencial Serra Morena</option>
+                <option value="Morumbi" data-fee="10">Morumbi</option>
+                <option value="Santo Expedito" data-fee="10">Santo Expedito</option>
+                <option value="São Cristóvão" data-fee="10">São Cristóvão</option>
+                <option value="São Carlos" data-fee="10">São Carlos</option>
+                <option value="Paraíso" data-fee="10">Paraíso</option>
+                <option value="Jatobá" data-fee="10">Jatobá</option>
+                <option value="Colina dos Bandeirantes" data-fee="10">Colina dos Bandeirantes</option>
+                <option value="Residencial Santa Branca" data-fee="10">Residencial Santa Branca</option>
+                <option value="Residencial Santa Rita" data-fee="10">Residencial Santa Rita</option>
+                <option value="Xangrilá" data-fee="10">Xangrilá</option>
+                <option value="Costa Rios" data-fee="10">Costa Rios</option>
+              </optgroup>
+              <optgroup label="Taxa de entrega: R$ 12,00">
+                <option value="São Geraldo" data-fee="12">São Geraldo</option>
+                <option value="Centro" data-fee="12">Centro</option>
+                <option value="Jardim Primavera" data-fee="12">Jardim Primavera</option>
+                <option value="Medicina" data-fee="12">Medicina</option>
+                <option value="Saúde" data-fee="12">Saúde</option>
+                <option value="Jardim Yara" data-fee="12">Jardim Yara</option>
+              </optgroup>
+              <optgroup label="Taxa de entrega: R$ 20,00">
+                <option value="Santa Filomena" data-fee="20">Santa Filomena</option>
+                <option value="Jardim Santa Cruz" data-fee="20">Jardim Santa Cruz</option>
+                <option value="Jardim América" data-fee="20">Jardim América</option>
+                <option value="Jardim Noronha" data-fee="20">Jardim Noronha</option>
+                <option value="Guanabara" data-fee="20">Guanabara</option>
+                <option value="Santa Rita de Cássia" data-fee="20">Santa Rita de Cássia</option>
+                <option value="Coronel Evaristo Azevedo Junqueira" data-fee="20">Coronel Evaristo Azevedo Junqueira</option>
+                <option value="Francisco Pereira de Freitas" data-fee="20">Francisco Pereira de Freitas</option>
+                <option value="Santa Angelina" data-fee="20">Santa Angelina</option>
+                <option value="Vista Alegre" data-fee="20">Vista Alegre</option>
+                <option value="Santo Antônio" data-fee="20">Santo Antônio</option>
+                <option value="São José" data-fee="20">São José</option>
+                <option value="Jardim Esplanada" data-fee="20">Jardim Esplanada</option>
+                <option value="Jardim Europa" data-fee="20">Jardim Europa</option>
+                <option value="Fátima I" data-fee="20">Fátima I</option>
+                <option value="Fátima II" data-fee="20">Fátima II</option>
+                <option value="Fátima III" data-fee="20">Fátima III</option>
+              </optgroup>
+              <optgroup label="Taxa de entrega: R$ 25,00">
+                <option value="Distrito" data-fee="25">Distrito</option>
+                <option value="São João" data-fee="25">São João</option>
+                <option value="Jardim BH" data-fee="25">Jardim BH</option>
+                <option value="Cidade Jardim" data-fee="25">Cidade Jardim</option>
+                <option value="Jardim Redentor" data-fee="25">Jardim Redentor</option>
+                <option value="Ipiranga" data-fee="25">Ipiranga</option>
+                <option value="Pão de Açúcar" data-fee="25">Pão de Açúcar</option>
+                <option value="Jardim São Fernando" data-fee="25">Jardim São Fernando</option>
+              </optgroup>
+            </select>
+          </label>
           <label class="checkout-field" id="address-field" hidden for="delivery-address">
             Endereço para entrega
-            <textarea id="delivery-address" name="delivery-address" rows="2" autocomplete="street-address" placeholder="Rua, número, bairro e complemento"></textarea>
+            <textarea id="delivery-address" name="delivery-address" rows="2" autocomplete="street-address" placeholder="Rua, número e complemento"></textarea>
           </label>
         </fieldset>
         <fieldset class="checkout-group">
@@ -89,7 +160,9 @@
           </label>
         </fieldset>
         <div class="total-row"><span>Total dos produtos</span><strong id="order-total">R$ 0,00</strong></div>
-        <p class="order-note">Entrega e pagamento são combinados diretamente com a loja.</p>
+        <div class="total-row" id="delivery-fee-row" hidden><span>Taxa de entrega</span><strong id="delivery-fee">R$ 0,00</strong></div>
+        <div class="total-row"><span>Total do pedido</span><strong id="order-grand-total">R$ 0,00</strong></div>
+        <p class="order-note">A taxa de entrega varia conforme o bairro. O pagamento é combinado diretamente com a loja.</p>
         <a class="whatsapp-button" id="whatsapp-button" href="#" target="_blank" rel="noreferrer">
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.5 11.7a8.5 8.5 0 0 1-12.6 7.4L3 20.5l1.4-4.7A8.5 8.5 0 1 1 20.5 11.7Z"/><path d="M8.4 8.1c.2-.4.4-.4.7-.4h.4c.2 0 .3.1.4.4l.7 1.6c.1.2.1.4-.1.6l-.5.6c-.2.2-.2.4 0 .7.6 1 1.5 1.8 2.5 2.3.2.1.4.1.6-.1l.7-.8c.2-.2.4-.2.6-.1l1.6.8c.2.1.3.2.3.4 0 .3-.2 1.1-.7 1.5-.5.5-1.2.7-2 .5-1.1-.3-2.4-.9-3.8-2.2-1.2-1.1-2-2.5-2.2-3.4-.2-.8.1-1.5.5-2Z"/></svg>
           Pedir pelo WhatsApp <span aria-hidden="true">↗</span>

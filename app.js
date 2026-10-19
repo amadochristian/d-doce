@@ -8,8 +8,11 @@
   const orderItems = document.querySelector("#order-items");
   const emptyOrder = document.querySelector("#empty-order");
   const checkoutForm = document.querySelector("#checkout-form");
+  const neighborhoodField = document.querySelector("#neighborhood-field");
+  const neighborhoodInput = document.querySelector("#delivery-neighborhood");
   const addressField = document.querySelector("#address-field");
   const addressInput = document.querySelector("#delivery-address");
+  const deliveryFeeRow = document.querySelector("#delivery-fee-row");
   const changeField = document.querySelector("#change-field");
   const changeInput = document.querySelector("#cash-change");
   const floatingOrder = document.querySelector("#floating-order");
@@ -128,6 +131,10 @@
     return checkoutForm.querySelector(`input[name="${name}"]:checked`)?.value;
   }
 
+  function deliveryFee() {
+    return Number(neighborhoodInput.selectedOptions[0]?.dataset.fee || 0);
+  }
+
   function parseAmount(value) {
     const normalized = value.trim().replace(/[^\d,.-]/g, "");
     if (!normalized) return null;
@@ -139,11 +146,21 @@
   function updateCheckoutFields() {
     const deliveryMethod = selectedOption("delivery-method");
     const paymentMethod = selectedOption("payment-method");
+    neighborhoodField.hidden = deliveryMethod !== "delivery";
+    neighborhoodInput.required = deliveryMethod === "delivery";
     addressField.hidden = deliveryMethod !== "delivery";
     addressInput.required = deliveryMethod === "delivery";
     addressInput.setCustomValidity(deliveryMethod === "delivery" && !addressInput.value.trim() ? "Informe o endereço para entrega." : "");
+    deliveryFeeRow.hidden = deliveryMethod !== "delivery";
     changeField.hidden = paymentMethod !== "cash";
+    renderTotals();
     updateWhatsAppLink();
+  }
+
+  function renderTotals() {
+    const fee = selectedOption("delivery-method") === "delivery" ? deliveryFee() : 0;
+    document.querySelector("#delivery-fee").textContent = money.format(fee);
+    document.querySelector("#order-grand-total").textContent = money.format(cartTotal() + fee);
   }
 
   function updateWhatsAppLink() {
@@ -151,8 +168,9 @@
     const deliveryMethod = selectedOption("delivery-method");
     const paymentMethod = selectedOption("payment-method");
     const changeAmount = parseAmount(changeInput.value);
+    const fee = deliveryMethod === "delivery" ? deliveryFee() : 0;
     const deliveryDetails = deliveryMethod === "delivery"
-      ? [`Para entregar no endereço:`, addressInput.value.trim()]
+      ? [`Bairro: ${neighborhoodInput.value}`, `Endereço: ${addressInput.value.trim()}`, `Taxa de entrega: ${money.format(fee)}`]
       : deliveryMethod === "pickup" ? ["Vou retirar o pedido"] : [];
     const paymentDetails = paymentMethod === "pix"
       ? ["Forma de pagamento: PIX"]
@@ -166,7 +184,9 @@
       "",
       ...lines,
       "",
-      `Total: ${money.format(cartTotal())}`,
+      `Total dos produtos: ${money.format(cartTotal())}`,
+      ...(deliveryMethod === "delivery" ? [`Taxa de entrega: ${money.format(fee)}`] : []),
+      `Total do pedido: ${money.format(cartTotal() + fee)}`,
       "",
       "Aguardo a confirmação. Obrigado!"
     ].join("\n");
@@ -181,6 +201,7 @@
     document.querySelector("#floating-count").textContent = String(count);
     document.querySelector("#floating-total").textContent = money.format(total);
     document.querySelector("#order-total").textContent = money.format(total);
+    renderTotals();
     emptyOrder.hidden = count !== 0;
     checkoutForm.hidden = count === 0;
     orderItems.innerHTML = entries.map(({ product, quantity }) => `<article class="order-item">
